@@ -138,20 +138,20 @@ class LogicalBackupApp(QWidget):
         super().__init__()
 
         self.setWindowTitle("Logical Backup Tool")
-        self.setGeometry(100, 100, 600, 400)
+        self.setGeometry(100, 100, 400, 400)
 
         layout = QVBoxLayout()
 
-        self.command_label = QLabel("Command:")
+        self.command_label = QLabel("Options:")
         self.command_combo = QComboBox()
-        self.command_combo.addItem("Select Command")
+        self.command_combo.addItem("Select Options")
         self.command_combo.addItem("backup")
         self.command_combo.addItem("list")
         self.command_combo.addItem("info")
         self.command_combo.addItem("encryption")
         self.command_combo.addItem("list-devices")
         
-        self.execute_button = QPushButton("Execute", self)
+        self.execute_button = QPushButton("Apply", self)
         self.execute_button.setObjectName("blueButton")
         self.execute_button.clicked.connect(self.execute_command)
 
