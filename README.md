@@ -27,13 +27,13 @@ pip install PyQt6 py7zr colorama
 ## Usage
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/ios-forensic-backup.git
-   cd ios-forensic-backup
+   git clone https://github.com/DRCRecoveryData/Logical-Backup-Tool.git
+   cd Logical-Backup-Tool
    ```
 
 2. **Run the application**:
    ```bash
-   python main.py
+   python logicalbackuptool-gui.py
    ```
    This will launch the GUI application where you can perform various operations.
 
