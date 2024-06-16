@@ -1,11 +1,11 @@
 import sys
 import os
+import tempfile
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QLabel, QLineEdit, QFileDialog, QComboBox, QProgressBar, QPlainTextEdit, QMessageBox
-from PyQt6.QtCore import Qt, QThread, pyqtSignal
+from PyQt6.QtCore import QThread, pyqtSignal
 import subprocess
 import re
-
-# Initialize colorama
+import py7zr
 from colorama import init
 init(autoreset=True)
 
@@ -49,35 +49,59 @@ class LogicalBackupWorker(QThread):
             return
 
         self.log_updated.emit(f"Starting backup to {self.backup_directory}...")
-        try:
-            process = subprocess.Popen(['pymobiledevice3', 'backup2', 'backup', '--full', self.backup_directory],
-                                       stdout=subprocess.PIPE,
-                                       stderr=subprocess.STDOUT,
-                                       universal_newlines=True, encoding='utf-8')
 
-            total_lines = 100  # Assuming progress is reported in lines as in your example
-            progress = 0
+        # Create a temporary directory for the backup process
+        with tempfile.TemporaryDirectory() as temp_backup_dir:
+            try:
+                process = subprocess.Popen(['pymobiledevice3', 'backup2', 'backup', '--full', temp_backup_dir],
+                                           stdout=subprocess.PIPE,
+                                           stderr=subprocess.STDOUT,
+                                           universal_newlines=True, encoding='utf-8')
 
-            for line in process.stdout:
-                self.log_updated.emit(strip_ansi_escape_codes(line.strip()))
-                # Example: Parsing progress from a line like "  5%|###      | 5.0/100.0 [00:05<02:10, 0.5/it]"
-                if re.search(r'(\d+)%\|\s*.*\|\s*(\d+\.\d+)/(\d+\.\d+)', line):
-                    progress = int(re.search(r'(\d+)%\|\s*.*\|\s*(\d+\.\d+)/(\d+\.\d+)', line).group(1))
-                    self.progress_updated.emit(progress)
-                # Check if progress has reached 100%
-                if progress >= 100:
-                    break  # Exit loop when progress reaches 100%
+                total_lines = 100  # Assuming progress is reported in lines as in your example
+                progress = 0
 
-            process.communicate()
-            if process.returncode != 0:
-                self.log_updated.emit(f"Error executing backup command.")
-            else:
-                self.log_updated.emit("Backup completed successfully.")
-                self.backup_finished.emit("Backup completed successfully.")  # Emit signal when backup is finished
-        except KeyboardInterrupt:
-            self.log_updated.emit("Backup process aborted by user.")
-        except subprocess.CalledProcessError as e:
-            self.log_updated.emit(f"Error executing backup command: {e}")
+                for line in process.stdout:
+                    self.log_updated.emit(strip_ansi_escape_codes(line.strip()))
+                    # Example: Parsing progress from a line like "  5%|###      | 5.0/100.0 [00:05<02:10, 0.5/it]"
+                    if re.search(r'(\d+)%\|\s*.*\|\s*(\d+\.\d+)/(\d+\.\d+)', line):
+                        progress = int(re.search(r'(\d+)%\|\s*.*\|\s*(\d+\.\d+)/(\d+\.\d+)', line).group(1))
+                        self.progress_updated.emit(progress)
+                    # Check if progress has reached 100%
+                    if progress >= 100:
+                        break  # Exit loop when progress reaches 100%
+
+                process.communicate()
+                if process.returncode != 0:
+                    self.log_updated.emit(f"Error executing backup command.")
+                else:
+                    self.log_updated.emit("Backup completed successfully.")
+                    # Create a zip archive from the temporary backup directory
+
+                    # Find the actual backup folder created by pymobiledevice3
+                    backup_folder_name = None
+                    for item in os.listdir(temp_backup_dir):
+                        if os.path.isdir(os.path.join(temp_backup_dir, item)):
+                            backup_folder_name = item
+                            break
+
+                    if backup_folder_name:
+                        backup_folder_path = os.path.join(temp_backup_dir, backup_folder_name)
+                        self.log_updated.emit(f"Compressing backup directory to zip file...")
+                        zip_path = os.path.join(self.backup_directory, f"{backup_folder_name}.zip")
+
+                        # Create a zip archive using py7zr module
+                        with py7zr.SevenZipFile(zip_path, 'w') as archive:
+                            archive.writeall(backup_folder_path, arcname=os.path.basename(backup_folder_path))
+
+                        self.log_updated.emit(f"Backup directory compressed to {zip_path}.")
+                        self.backup_finished.emit(f"Backup completed and saved to {zip_path}.")  # Emit signal when backup is finished
+                    else:
+                        self.log_updated.emit("Error: Backup folder not found.")
+            except KeyboardInterrupt:
+                self.log_updated.emit("Backup process aborted by user.")
+            except subprocess.CalledProcessError as e:
+                self.log_updated.emit(f"Error executing backup command: {e}")
 
     def list_files(self):
         if not self.backup_directory:
@@ -204,8 +228,8 @@ class LogicalBackupApp(QWidget):
         command = self.command_combo.currentText()
         backup_directory = self.backup_path_edit.text()
 
-        if command == "Select Command":
-            self.show_message("Error", "Please select a command.")
+        if command == "Select Options":
+            self.show_message("Error", "Please select an option.")
             return
 
         if command == "backup" and not backup_directory:
