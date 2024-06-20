@@ -55,10 +55,5 @@ pip install PyQt6 py7zr colorama
 ## Contributions
 Contributions are welcome! If you find any issues or have suggestions for improvements, please create an issue or submit a pull request.
 
-## Download
-```https://drive.google.com/file/d/1JWmwYxoVidjMTdjvxplWtQJ_bYzlD444/view?usp=sharing```
-
-Password: 123
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
