@@ -1,4 +1,4 @@
-# Logical Backup Tool for iOS Forensics
+# IOS Backup Tool for IOS Forensics
 
 ![2024-06-16_162459](https://github.com/DRCRecoveryData/Logical-Backup-Tool/assets/85211068/0b3471fc-b5b4-4a8a-8fe8-6885daea36ab)
 
