@@ -6,8 +6,6 @@ from PyQt6.QtCore import QThread, pyqtSignal
 import subprocess
 import re
 import py7zr
-from colorama import init
-init(autoreset=True)
 
 # Function to strip ANSI escape codes
 def strip_ansi_escape_codes(text):
@@ -34,12 +32,6 @@ class LogicalBackupWorker(QThread):
     def execute_command(self, command):
         if command == 'backup':
             self.backup()
-        elif command == 'list':
-            self.list_files()
-        elif command == 'info':
-            self.backup_info()
-        elif command == 'encryption':
-            self.set_encryption()
         elif command == 'list-devices':
             self.list_connected_devices()
 
@@ -103,43 +95,6 @@ class LogicalBackupWorker(QThread):
             except subprocess.CalledProcessError as e:
                 self.log_updated.emit(f"Error executing backup command: {e}")
 
-    def list_files(self):
-        if not self.backup_directory:
-            self.log_updated.emit("Backup directory not selected.")
-            return
-        
-        self.log_updated.emit(f"Listing files in backup directory {self.backup_directory}...")
-        try:
-            subprocess.run(['pymobiledevice3', 'backup2', 'list', self.backup_directory], check=True)
-        except KeyboardInterrupt:
-            self.log_updated.emit("List process aborted by user.")
-        except subprocess.CalledProcessError as e:
-            self.log_updated.emit(f"Error listing files: {e}")
-
-    def backup_info(self):
-        if not self.backup_directory:
-            self.log_updated.emit("Backup directory not selected.")
-            return
-        
-        self.log_updated.emit(f"Printing information for backup directory {self.backup_directory}...")
-        try:
-            subprocess.run(['pymobiledevice3', 'backup2', 'info', self.backup_directory], check=True)
-        except KeyboardInterrupt:
-            self.log_updated.emit("Info process aborted by user.")
-        except subprocess.CalledProcessError as e:
-            self.log_updated.emit(f"Error printing backup info: {e}")
-
-    def set_encryption(self):
-        state = "on"  # Default to "on" for example
-        password = "my_password"  # Default password for example
-        self.log_updated.emit(f"Setting encryption {state} with password {password}...")
-        try:
-            subprocess.run(['pymobiledevice3', 'backup2', 'encryption', state, password], check=True)
-        except KeyboardInterrupt:
-            self.log_updated.emit("Encryption process aborted by user.")
-        except subprocess.CalledProcessError as e:
-            self.log_updated.emit(f"Error setting encryption: {e}")
-
     def list_connected_devices(self):
         self.log_updated.emit("Listing connected devices...")
         try:
@@ -170,9 +125,6 @@ class LogicalBackupApp(QWidget):
         self.command_combo = QComboBox()
         self.command_combo.addItem("Select Options")
         self.command_combo.addItem("backup")
-        self.command_combo.addItem("list")
-        self.command_combo.addItem("info")
-        self.command_combo.addItem("encryption")
         self.command_combo.addItem("list-devices")
         
         self.execute_button = QPushButton("Apply", self)
