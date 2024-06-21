@@ -7,9 +7,6 @@ This tool provides a graphical interface (GUI) application built with PyQt6 and 
 
 ## Features
 - **Backup**: Create full backups of iOS devices to a specified directory and compress them into ZIP archives.
-- **List Files**: List files contained within a specified backup directory.
-- **Backup Info**: Print information about a specified backup directory.
-- **Encryption**: Set encryption state for backups with optional password protection.
 - **List Devices**: List iOS devices currently connected via USB.
 
 ## Requirements
@@ -17,11 +14,11 @@ This tool provides a graphical interface (GUI) application built with PyQt6 and 
 - **Dependencies**:
   - PyQt6
   - py7zr
-  - colorama
+  - pymobiledevice3
 
 Install dependencies using pip:
 ```bash
-pip install PyQt6 py7zr colorama
+pip install PyQt6 py7zr pymobiledevice3
 ```
 
 ## Usage
@@ -33,11 +30,11 @@ pip install PyQt6 py7zr colorama
 
 2. **Run the application**:
    ```bash
-   python logicalbackuptool-gui.py
+   python iosbackuptool-gui.py
    ```
    This will launch the GUI application where you can perform various operations.
 
-3. **Select an option** from the dropdown menu (`backup`, `list`, `info`, `encryption`, `list-devices`).
+3. **Select an option** from the dropdown menu (`backup`, `list-devices`).
 
 4. **Specify the Backup Directory**:
    - Click on **Browse** to select the directory where backups should be stored.
