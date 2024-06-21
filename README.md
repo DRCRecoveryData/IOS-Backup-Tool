@@ -1,6 +1,7 @@
 # IOS Backup Tool for IOS Forensics
 
-![2024-06-16_162459](https://github.com/DRCRecoveryData/Logical-Backup-Tool/assets/85211068/0b3471fc-b5b4-4a8a-8fe8-6885daea36ab)
+![222](https://github.com/DRCRecoveryData/IOS-Backup-Tool/assets/85211068/f40f8112-eccc-428a-8ce7-1c6c5c7b4df8)
+
 
 ## Overview
 This tool provides a graphical interface (GUI) application built with PyQt6 and Python, designed to facilitate logical backups of iOS devices. It supports various commands to backup, list files, retrieve backup information, set encryption, and list connected devices using `pymobiledevice3`.
