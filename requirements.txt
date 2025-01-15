@@ -1,0 +1,3 @@
+py7zr
+pymobiledevice3
+PyQt6
