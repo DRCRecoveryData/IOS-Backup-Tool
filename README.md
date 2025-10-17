@@ -1,104 +1,152 @@
-# IOS Backup Tool for IOS Forensics
+# 🍏 iOS Logical Backup Tool for Forensics
 
-![222](https://github.com/DRCRecoveryData/IOS-Backup-Tool/assets/85211068/f40f8112-eccc-428a-8ce7-1c6c5c7b4df8)
+**A powerful, GUI-based utility for creating logical backups of iOS devices, essential for digital forensics and data recovery.**
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/DRCRecoveryData/IOS-Backup-Tool/build.yml)
-![License](https://img.shields.io/github/license/DRCRecoveryData/IOS-Backup-Tool)
-![Version](https://img.shields.io/github/v/release/DRCRecoveryData/IOS-Backup-Tool)
+<img width="552" height="678" alt="image" src="https://github.com/user-attachments/assets/a6b58339-1574-4353-8d19-ec6dc0439171" />
 
-## Table of Contents
+| Status & License | | |
+| :--- | :--- | :--- |
+| ![Build Status](https://img.shields.io/github/actions/workflow/status/DRCRecoveryData/IOS-Backup-Tool/build.yml) | ![License](https://img.shields.io/github/license/DRCRecoveryData/IOS-Backup-Tool) | ![Version](https://img.shields.io/github/v/release/DRCRecoveryData/IOS-Backup-Tool) |
+
+---
+
+## 📖 Table of Contents
 - [Overview](#overview)
+- [Features](#features)
+- [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Notes for Forensics](#notes-for-forensics)
 - [Contributing](#contributing)
 - [License](#license)
-- [References](#references)
 - [Contact](#contact)
 
-## Overview
+---
 
-This tool provides a graphical interface (GUI) application built with PyQt6 and Python, designed to facilitate logical backups of iOS devices. It supports various commands to backup, list files, and restore data.
+## 💡 Overview
 
-## Features
+The **iOS Logical Backup Tool** is a dedicated **Graphical User Interface (GUI)** application, built using **PyQt6** and **Python**, designed to streamline the process of acquiring logical backups from iOS devices. Leveraging the power of `pymobiledevice3`, this tool is tailored for professionals in **digital forensics** and **data recovery** who require reliable and reproducible acquisition workflows.
 
-- **Backup**: Create full backups of iOS devices to a specified directory and compress them into ZIP archives.
-- **List Devices**: List iOS devices currently connected via USB.
+---
 
-## Requirements
+## ✨ Features
 
-- **Python**: Version 3.6 or higher
-- **Dependencies**:
-  - PyQt6
-  - py7zr
-  - pymobiledevice3
+This tool offers a straightforward, step-by-step interface for critical acquisition tasks:
 
-Install dependencies using pip:
+* **Logical Backup Acquisition**: Create full, standard logical backups of connected iOS devices.
+* **Archiving**: Automatically compress generated backups into **ZIP archives** for efficient storage and transfer.
+* **Device Management**: Easily **list all currently connected iOS devices** via USB.
+* **Intuitive GUI**: A user-friendly interface simplifies the complex command-line processes into a few clicks.
+
+---
+
+## ⚙️ Requirements
+
+### Software Dependencies
+
+Ensure you have the following installed on your system:
+
+* **Python**: Version 3.6 or higher.
+
+### Python Libraries
+
+The tool relies on these essential Python packages:
+
+* **PyQt6**: For the robust Graphical User Interface.
+* **py7zr**: For handling compression and archiving of the backup data.
+* **pymobiledevice3**: The core library facilitating communication and data acquisition from iOS devices.
+
+Install all required libraries easily via `pip`:
 ```bash
 pip install PyQt6 py7zr pymobiledevice3
-```
+````
 
-## Installation
+-----
 
-To install the IOS Backup Tool:
+## ⬇️ Installation
 
-1. Download the latest release from the [releases page](https://github.com/DRCRecoveryData/IOS-Backup-Tool/releases).
-2. Extract the contents to a directory.
-3. Ensure you have Python installed. You can download it from [python.org](https://www.python.org/).
-4. Install the required dependencies:
+### Method 1: Installing from Source
+
+1.  **Clone the Repository:**
+
+    ```bash
+    git clone [https://github.com/DRCRecoveryData/IOS-Backup-Tool.git](https://github.com/DRCRecoveryData/IOS-Backup-Tool.git)
+    cd IOS-Backup-Tool
+    ```
+
+2.  **Install Dependencies:**
+    It is highly recommended to install dependencies from the provided `requirements.txt` file:
+
     ```sh
     pip install -r requirements.txt
     ```
 
-## Usage
+### Method 2: Using a Pre-built Release
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/DRCRecoveryData/IOS-Backup-Tool.git
-    cd IOS-Backup-Tool
-    ```
+1.  Download the latest executable release from the [releases page](https://github.com/DRCRecoveryData/IOS-Backup-Tool/releases).
+2.  Extract the downloaded archive to your preferred working directory.
+3.  Execute the application file directly (e.g., `iosbackuptool.exe` on Windows).
 
-2. **Run the application**:
+-----
+
+## 🚀 Usage
+
+1.  **Launch the Application:**
+    If running from source, execute the main script:
+
     ```bash
     python iosbackuptool-gui.py
     ```
-    This will launch the GUI application where you can perform various operations.
 
-3. **Select an option** from the dropdown menu (`backup`, `list-devices`).
+2.  **Connect Device:** Connect the target iOS device to your computer via USB.
 
-4. **Specify the Backup Directory**:
-    - Click on **Browse** to select the directory where backups should be stored.
+3.  **Select Operation:**
 
-5. **Click Apply** to execute the selected command.
+      * Use the dropdown menu to select your desired operation (e.g., `backup`, `list-devices`).
 
-6. **Monitor Progress**:
-    - The progress of operations (e.g., backup) will be displayed in the progress bar and log area.
-    - Upon completion, a popup will notify you of the backup status.
+4.  **Specify Output Directory (for Backup):**
 
-## Notes
+      * Click the **Browse** button and select the directory where you want the final backup archive to be saved.
 
-- Ensure `pymobiledevice3` is installed and accessible in your system's PATH for proper functionality of commands.
-- This tool supports logical backups; for physical extractions, refer to dedicated forensic tools.
+5.  **Execute Command:**
 
-## Contributing
+      * Click **Apply** to begin the selected process.
 
-We welcome contributions! To contribute:
+6.  **Monitor Status:**
 
-1. Fork the repository.
-2. Create a new branch.
-3. Make your changes.
-4. Submit a pull request.
+      * Observe the progress in the log area and the progress bar. A notification popup will confirm successful completion.
 
-For issues or suggestions, please open an issue on GitHub.
+-----
 
-## License
+## ⚠️ Notes for Forensics
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+  * **Logical vs. Physical:** This tool performs **logical backups** which extract user-generated data that the operating system allows access to. For a full **physical file system extraction**, you must use specialized tools and techniques (often requiring jailbreaking or hardware exploits).
+  * **PATH Variable:** Ensure the necessary components of `pymobiledevice3` are properly installed and accessible via your system's **PATH** environment variable for all commands to function correctly.
 
-## References
+-----
 
-- [Python Programming Language](https://www.python.org/)
-- [PyQt6 Library](https://pypi.org/project/PyQt6/)
+## 🤝 Contributing
 
-## Contact
+We welcome contributions from the community\! If you have suggestions for features, bug fixes, or improvements:
 
-For support or questions, please contact us at [hanaloginstruments@gmail.com](mailto:hanaloginstruments@gmail.com)
+1.  **Fork** the repository.
+2.  Create a new feature branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your changes (`git commit -m 'Add AmazingFeature'`).
+4.  Push to the branch (`git push origin feature/AmazingFeature`).
+5.  Open a **Pull Request**.
+
+For bug reports or questions, please open an **Issue** on GitHub.
+
+-----
+
+## ⚖️ License
+
+This project is distributed under the **MIT License**. See the [LICENSE](https://www.google.com/search?q=LICENSE) file for full details.
+
+-----
+
+## ✉️ Contact
+
+For support, inquiries, or partnership opportunities, please reach out:
+
+  * **Email**: [hanaloginstruments@gmail.com](mailto:hanaloginstruments@gmail.com)
